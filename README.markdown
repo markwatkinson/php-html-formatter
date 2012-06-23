@@ -8,7 +8,9 @@ paragraphs in pre/code blocks).
 
 Usage:
 
+```php
 require_once 'src/HTMLFormatter.class.php';
 
 $f = new HTMLFormatter();
-echo $p->format($text);
+echo $f->format($text);
+```
