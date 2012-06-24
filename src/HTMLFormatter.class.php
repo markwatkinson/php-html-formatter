@@ -122,9 +122,11 @@ class HTMLFormatter {
                 
                 $prev_is_block = $prev_type === HTMLNodeType::ELEMENT &&
                     HTMLNodeUtils::is_block($prev->tag());
-                
+                $prev_is_inline = ($prev !== null && !$prev_is_block);
                 $next_is_block = $next_type === HTMLNodeType::ELEMENT &&
                     HTMLNodeUtils::is_block($next->tag());
+                $next_is_inline = ($prev !== null && !$prev_is_block);
+                    
                 
                 if ($prev === null || (
                         $prev !== null && $prev->type() === HTMLNodeType::TEXT &&
@@ -136,6 +138,7 @@ class HTMLFormatter {
                     $prev_is_block = ($prev !== null && 
                         HTMLNodeUtils::is_block($prev->tag())
                     );
+                    $prev_is_inline = ($prev !== null && !$prev_is_block);
                 }
                 if ($next === null || (
                         $next !== null && $next->type() === HTMLNodeType::TEXT &&
@@ -147,13 +150,19 @@ class HTMLFormatter {
                     $next_is_block = ($next !== null &&
                         HTMLNodeUtils::is_block($next->tag())
                     );
+                    $next_is_inline = ($prev !== null && !$prev_is_block);
                 }
                 
-                if ( !empty($trimmed_text) && ($prev_is_block || $next_is_block)) {
+                if ( !empty($trimmed_text) && (
+                        $prev_is_block && !$next_is_inline || 
+                        $next_is_block && !$prev_is_inline
+                     )
+                ) {
                     $template['prepend_paragraph'] = true;
                 }
-                else if ($direct_child && $next !== null && !$next_is_block
-                    && ($prev_is_block || $prev === null)
+                else if ($direct_child && 
+                    ($next !== null && !$next_is_block) &&
+                    ($prev_is_block || $prev === null)
                 ) {
                     $template['prepend_paragraph'] = true;
                 }

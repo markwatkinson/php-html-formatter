@@ -84,4 +84,8 @@ test('some text
 <p>
 some text<h3>heading</h3>', true);
 
+test('text<span>inline</span>.<h2>heading</h2>', '
+<p>
+text<span>inline</span>.<h2>heading</h2>', true);
+
 exit($exit);
