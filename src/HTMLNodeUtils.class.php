@@ -7,7 +7,7 @@ class HTMLNodeUtils {
     }
     public static function self_closing($tag) {
         return in_array($tag, array('area', 'base', 'basefont', 'br', 'hr', 
-            'input', 'img', 'link'));
+            'input', 'img', 'link', 'source'));
     }
     
     public static function terminated_by_block($tag) {

@@ -40,7 +40,17 @@ abstract class HTMLNode {
         return $this->type;
     }
     
-    public function attributes($new_attrs=null, $clear=false) {
+    public function attribute($attr, $new_attr=null) {
+        if ($new_attr === null) {
+            return isset($this->attributes[$attr])? $this->attributes[$attr] 
+              : null;   
+        }
+        else {
+            $this->attributes[$attr] = $this->utils->escape($new_attr);
+        }
+    }
+    
+    public function attributes($new_attrs=null, $clear=false) {        
         if ($new_attrs !== null) {
             if ($clear) { $this->attributes = array(); }
             foreach($new_attrs as $k=>&$v) {

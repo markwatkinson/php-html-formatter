@@ -116,6 +116,11 @@ class HTMLParser {
         $n->tag($tag);
         $n->attributes($attributes);
         
+        if ($n->tag() === 'img' && !$n->attribute('alt')) {
+            if ($n->attribute('title')) $n->attribute('alt', $n->attribute('title'));
+            else $n->attribute('alt', '');
+        }
+        
         if ($self_close) {
             $current = $this->current_node();
             if ($current) $current->append($n);
