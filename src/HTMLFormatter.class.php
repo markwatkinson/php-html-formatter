@@ -191,6 +191,7 @@ class HTMLFormatter {
         );
         $template = array_merge($template, $options);
         $text = $node->text();
+        $prepend_paragraph = false;
         if ($template['ltrim'] && $this->options['ltrim']) {
             $text = ltrim($text);
         }
@@ -203,11 +204,12 @@ class HTMLFormatter {
         }
         if ($template['prepend_paragraph'] && $this->options['prepend_paragraph']) {
             $text = '<p>' . $text;
+            $prepend_paragraph = true;
         }
         if ($template['paragraph'] && $this->options['paragraph']) {
             $text = preg_replace("/(\r\n|[\r\n]){2,}/", '<p>', $text);
         }
-        if ($template['linebreak'] && $this->options['linebreak']) {
+        if ($template['linebreak'] && $this->options['linebreak'] && !$prepend_paragraph) {
             $text = str_replace("\r\n", "<br>", $text);
             $text = str_replace("\r", "<br>", $text);
             $text = str_replace("\n", "<br>", $text);
