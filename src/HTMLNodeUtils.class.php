@@ -19,6 +19,8 @@ class HTMLNodeUtils {
     // http://www.cs.sfu.ca/CourseCentral/165/common/ref/wdgxhtml10/block.html
     return in_array($tag, array(
         'address',
+        'aside',
+        'article',
         'blockquote',
         'center',
         'dir',

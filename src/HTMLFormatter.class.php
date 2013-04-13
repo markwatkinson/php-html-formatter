@@ -171,6 +171,9 @@ class HTMLFormatter {
                 }
             }
         }
+        if (isset($template['prepend_paragraph']) && $template['prepend_paragraph']) {
+            $template['ltrim'] = true;
+        }
         return $template;
     }
     
@@ -209,7 +212,7 @@ class HTMLFormatter {
         if ($template['paragraph'] && $this->options['paragraph']) {
             $text = preg_replace("/(\r\n|[\r\n]){2,}/", '<p>', $text);
         }
-        if ($template['linebreak'] && $this->options['linebreak'] && !$prepend_paragraph) {
+        if ($template['linebreak'] && $this->options['linebreak']) {
             $text = str_replace("\r\n", "<br>", $text);
             $text = str_replace("\r", "<br>", $text);
             $text = str_replace("\n", "<br>", $text);
