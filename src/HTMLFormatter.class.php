@@ -12,7 +12,8 @@ class HTMLFormatter {
             'ltrim' => true,
             'rtrim' => true,
         );
-        
+
+    private $attr_formatters = array();
 
     private function format_options($node) {
         // we're overriding the template here, so we don't
@@ -237,6 +238,13 @@ class HTMLFormatter {
         if($node->type() === HTMLNodeType::TEXT) {
             $this->format_node($node, $options);
         }
+        foreach($node->attributes() as $attr=>$value) {
+        
+            foreach($this->attr_formatters as $f) {
+                $value = $f($attr, $value);
+                $node->attribute($attr, $value);
+            }
+        }
         foreach($node->children() as $c) {
             $this->format_recurse($c, $options);
         }
@@ -271,5 +279,9 @@ class HTMLFormatter {
             $this->options[$option] = $value;
         }
         else throw new InvalidArgumentException();
+    }
+
+    function add_attr_formatter($formatter) {
+        $this->attr_formatters[] = $formatter;
     }
 }
